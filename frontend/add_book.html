@@ -15,7 +15,7 @@
 
   <div class="container">
     <h1>Add A New Book</h1>
-    <form id="addBookForm" action="/book" method="POST" enctype="multipart/form-data">
+    <form id="addBookForm" action="" method="POST" enctype="multipart/form-data">
 
         <!-- CSRF Token -->
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -32,13 +32,57 @@
         <input type="text" class="form-control" id="ISBN" name="ISBN" required>
       </div>
       <div class="form-group">
-        <label for="price">Price:</label>
-        <input type="number" class="form-control" id="price" name="price" required>
+        <label for="price">Price(e.g. 25.50):</label>
+        <input type="number" class="form-control" id="price" name="price" step=".01" required>
       </div>
       <div class="form-group">
-        <label for="publication_year">Publication Year:</label>
-        <input type="number" class="form-control" id="publication_year" name="publication_year" required>
+        <label for="publication_year">Publication Year(e.g 2000):</label>
+        <input type="text" class="form-control" id="publication_year" name="publication_year" pattern = "^[0-9]{4}$" required>
       </div>
       <button type="submit" class="btn btn-primary">Save</button>
     </form>
   </div>
+
+  <script>
+    // Get the form element
+    var form = document.getElementById('addBookForm');
+  
+    // Attach event listener to the form submission
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+  
+        // Get the form values
+        const title = document.getElementById('title').value;
+        const author = document.getElementById('author').value;
+        const ISBN = document.getElementById('ISBN').value;
+        const price = parseFloat(document.getElementById("price").value);
+        const publication_year = parseInt(document.getElementById("publication_year").value);
+
+        // Create the request body JSON object
+        const newBook = {
+            title: title,
+            author: author,
+            ISBN: ISBN,
+            price: price,
+            publication_year: publication_year
+        };
+  
+        // Send the updated book data to the API using fetch
+        fetch(`http://localhost:8080/book`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newBook)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert("New book added successfully");
+            window.location.href = `http://localhost/A2_Bookstore/frontend/index.html`;
+        })
+        .catch(error => {
+            alert("Error adding new book:", error);
+            window.location.href = `http://localhost/A2_Bookstore/frontend/index.html`;
+        });
+    });
+  </script>
