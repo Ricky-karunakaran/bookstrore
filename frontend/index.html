@@ -13,7 +13,9 @@
 <script src="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table-locale-all.min.js"></script>
 <script src="https://unpkg.com/bootstrap-table@1.22.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
 
-
+<h1>BookStore</h1>
+<button id="addButton" type="button" class="btn btn-success">Add New Book</button>
+<p></p>
 <table
   id="table"
   data-detail-formatter="detailFormatter"
@@ -92,6 +94,10 @@
   $(function() {
     initTable()
     $('#locale').change(initTable)
+
+    $('#addButton').click(function() {
+      window.location.href = "add_book.html"; // Replace "add_book.html" with the actual URL of your add data page
+    });
   })
 </script>
 
