@@ -1,5 +1,8 @@
 package BookStore.Bookstore.Model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +18,25 @@ public class Book extends ModelBase {
     private String ISBN;
     private Double price;
     private Integer publication_year;
+
+    public Book() {
+        // Default constructor is required for deserialization
+    }
+
+    public Book(String jsonString) {
+        // Deserialize the JSON string and populate the fields
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Book temp = objectMapper.readValue(jsonString, Book.class);
+            this.title = temp.title;
+            this.author = temp.author;
+            this.ISBN = temp.ISBN;
+            this.price = temp.price;
+            this.publication_year = temp.publication_year;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Integer getId() {
         return id;
