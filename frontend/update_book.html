@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src ="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table.min.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <link href="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table.min.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table-locale-all.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.22.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
+    <title>Update Book Information</title>
+</head>
+<body>
+    <div class="container col-6">
+        <h1>Update Book Information</h1>
+        <form id="updateForm">
+            <label for="id">Book ID:</label>
+            <input type="number" class="form-control" id="id" name="id" required><br>
+
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" required><br>
+
+            <label for="author">Author:</label>
+            <input type="text" class="form-control" id="author" name="author" required><br>
+
+            <label for="isbn">ISBN:</label>
+            <input type="text" class="form-control" id="isbn" name="isbn" required><br>
+
+            <label for="price">Price:</label>
+            <input type="number" class="form-control" id="price" name="price" step="0.01" required><br>
+
+            <label for="publicationYear">Publication Year:</label>
+            <input type="number" class="form-control" id="publicationYear" name="publicationYear" required><br>
+
+            <button type="submit" class="btn btn-primary">Update Book</button>
+        </form>
+    </div>
+        
+
+    <script>
+        document.getElementById("updateForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get the form data
+            const id = document.getElementById("id").value;
+            const title = document.getElementById("title").value;
+            const author = document.getElementById("author").value;
+            const isbn = document.getElementById("isbn").value;
+            const price = parseFloat(document.getElementById("price").value);
+            const publicationYear = parseInt(document.getElementById("publicationYear").value);
+
+            // Create an object with the updated book data
+            const updatedBook = {
+                title: title,
+                author: author,
+                isbn: isbn,
+                price: price,
+                publication_year: publicationYear
+            };
+
+            // Send the updated book data to the API using fetch
+            fetch(`http://localhost:8080/book/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updatedBook)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Book updated successfully");
+                window.location.href = `http://localhost/A2_Bookstore/frontend/index.html`;
+            })
+            .catch(error => {
+                alert("Error updating book:", error);
+                window.location.href = `http://localhost/A2_Bookstore/frontend/index.html`;
+            });
+        });
+    </script>
+</body>
+</html>

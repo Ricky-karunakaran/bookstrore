@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import BookStore.Bookstore.Exception.ExceptionBase;
@@ -51,6 +53,23 @@ public class BookController extends ControllerBase {
             return new ResponseEntity<Object>(savedBook, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new ExceptionBase(e.getMessage(), 500), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/book/{id}")
+    public ResponseEntity<Object> updateBook(@PathVariable Integer id, @RequestBody Book updatedBook) {
+        try {
+            Book existingBook = book_repository.findById(id).orElse(null);
+            existingBook.setTitle(updatedBook.getTitle());
+            existingBook.setAuthor(updatedBook.getAuthor());
+            existingBook.setISBN(updatedBook.getISBN());
+            existingBook.setPrice(updatedBook.getPrice());
+            existingBook.setPublication_year(updatedBook.getPublication_year());
+
+            Book savedBook = book_repository.save(existingBook);
+            return new ResponseEntity<Object>(savedBook, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<Object>(new ExceptionBase(e.getMessage(), 500), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
