@@ -44,7 +44,7 @@ public class BookController extends ControllerBase {
             Book book = new Book();
             book.setTitle(newBook.getTitle());
             book.setAuthor(newBook.getAuthor());
-            book.setISBN(newBook.getISBN());
+            book.setIsbn(newBook.getIsbn());
             book.setPrice(newBook.getPrice());
             book.setPublication_year(newBook.getPublication_year());
 
@@ -64,10 +64,11 @@ public class BookController extends ControllerBase {
             if (existingBook == null) {
                 throw new Exception("No such id found");
             }
-            System.out.println(updatedBook.getISBN());
+            System.out.println("Hellooo");
+            System.out.println(updatedBook.getIsbn());
             existingBook.setTitle(updatedBook.getTitle());
             existingBook.setAuthor(updatedBook.getAuthor());
-            existingBook.setISBN(updatedBook.getISBN());
+            existingBook.setIsbn(updatedBook.getIsbn());
             existingBook.setPrice(updatedBook.getPrice());
             existingBook.setPublication_year(updatedBook.getPublication_year());
             Book savedBook = book_repository.save(existingBook);

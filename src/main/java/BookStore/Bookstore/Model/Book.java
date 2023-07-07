@@ -15,7 +15,8 @@ public class Book extends ModelBase {
     private Integer id;
     private String title;
     private String author;
-    private String ISBN;
+    private String isbn;
+
     private Double price;
     private Integer publication_year;
 
@@ -30,7 +31,7 @@ public class Book extends ModelBase {
             Book temp = objectMapper.readValue(jsonString, Book.class);
             this.title = temp.title;
             this.author = temp.author;
-            this.ISBN = temp.ISBN;
+            this.isbn = temp.isbn;
             this.price = temp.price;
             this.publication_year = temp.publication_year;
         } catch (JsonProcessingException e) {
@@ -62,12 +63,12 @@ public class Book extends ModelBase {
         this.author = author;
     }
 
-    public String getISBN() {
-        return ISBN;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setISBN(String iSBN) {
-        ISBN = iSBN;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public Double getPrice() {
