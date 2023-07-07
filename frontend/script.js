@@ -9,8 +9,8 @@
 
   
 function view_book(data){
-    console.log("View");
-    console.log(data);
+    var book = JSON.parse(data);
+    window.location.href = "update_book.html?id="+book.id
 }
 
 function delete_book(data){
