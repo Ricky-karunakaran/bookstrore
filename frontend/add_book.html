@@ -78,11 +78,11 @@
         .then(response => response.json())
         .then(data => {
             alert("New book added successfully");
-            window.location.href = `http://localhost/A2_Bookstore/frontend/index.html`;
+            window.location.href = `index.html`;
         })
         .catch(error => {
             alert("Error adding new book:", error);
-            window.location.href = `http://localhost/A2_Bookstore/frontend/index.html`;
+            window.location.href = `index.html`;
         });
     });
   </script>

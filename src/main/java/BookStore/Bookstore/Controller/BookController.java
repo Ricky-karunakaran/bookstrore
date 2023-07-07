@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,6 +90,21 @@ public class BookController extends ControllerBase {
         } catch (CannotCreateTransactionException e) {
             return new ResponseEntity<Object>(new ExceptionBase("Fail To Connect Database", 500),
                     HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            return new ResponseEntity<Object>(new ExceptionBase(e.getMessage(), 500), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/book/{id}") // Specify the book ID in the URL path
+    public ResponseEntity<Object> deleteBook(@PathVariable Integer id) {
+        try {
+            Book book = book_repository.findById(id).orElse(null);
+            if (book == null) {
+                return new ResponseEntity<Object>(new ExceptionBase("Book not found", 404), HttpStatus.NOT_FOUND);
+            }
+
+            book_repository.delete(book);
+            return new ResponseEntity<Object>(book, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<Object>(new ExceptionBase(e.getMessage(), 500), HttpStatus.INTERNAL_SERVER_ERROR);
         }

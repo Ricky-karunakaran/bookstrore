@@ -45,7 +45,19 @@
         window.location.href = "update_book.html?id="+row.id
     },
     'click .delete': function (e, value, row, index) {
-        delete_book(JSON.stringify(row))
+      // calling delete API
+      fetch(`http://localhost:8080/book/${row.id}`, {
+                method: "DELETE"
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Book deleted successfully");
+                window.location.href = `index.html`;
+            })
+            .catch(error => {
+                alert("Error deleting book:", error);
+                window.location.href = `index.html`;
+            });
     }
   }
 
