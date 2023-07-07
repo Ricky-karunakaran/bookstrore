@@ -10,7 +10,7 @@
 
 <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
 <script src="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table-locale-all.min.js"></script>
+<!-- <script src="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table-locale-all.min.js"></script> -->
 <script src="https://unpkg.com/bootstrap-table@1.22.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
 
 <h1>BookStore</h1>
@@ -42,7 +42,7 @@
 
   window.operateEvents = {
     'click .like': function (e, value, row, index) {
-        view_book(JSON.stringify(row));
+        window.location.href = "update_book.html?id="+row.id
     },
     'click .delete': function (e, value, row, index) {
         delete_book(JSON.stringify(row))

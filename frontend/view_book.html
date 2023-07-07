@@ -1,0 +1,76 @@
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <style>
+        .col-md{
+            padding: 10px 10px 10px 10px;
+        }
+        .container{
+            margin-top: 25vh;
+        }
+    </style>
+</head>
+<div class="container">
+    <div class="row">
+      <div class="col-md border">Book Id</div>
+      <div class="col-md border" id="id"></div>
+    </div>
+    <div class="row">
+        <div class="col-md border">Book Title</div>
+        <div class="col-md border" id="title"></div>
+      </div>
+      <div class="row">
+        <div class="col-md border">Book Author</div>
+        <div class="col-md border" id="author"></div>
+      </div>
+      <div class="row">
+        <div class="col-md border">Book Price</div>
+        <div class="col-md border" id="price"></div>
+      </div>
+      <div class="row">
+        <div class="col-md border">Book ISBN</div>
+        <div class="col-md border" id="isbn"></div>
+      </div>
+      <div class="row">
+        <div class="col-md border">Book Publication year</div>
+        <div class="col-md border" id="year"></div>
+      </div>
+      <div class="row">
+        <div class="col-md "><button class="btn-primary" onClick="window.location.href ='index.html'">Back to Home</button></div>
+      </div>
+  </div>
+  <script>
+    $(function(){
+        fetch();
+    });
+
+    function fetch() {
+        let params = (new URL(document.location)).searchParams;
+        let id = params.get("id");
+
+        var url = `http://localhost:8080/book/${id}`
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (res, textStatus, xhr) {
+                var book = res
+                document.getElementById("id").innerHTML=book.id;
+                document.getElementById("title").innerHTML=book.title;
+                document.getElementById("author").innerHTML=book.author;
+                document.getElementById("price").innerHTML=book.price;
+                document.getElementById("isbn").innerHTML=book.isbn;
+                document.getElementById("year").innerHTML=book.publication_year;
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert(xhr.responseJSON.message)
+            }
+            });
+    }
+
+
+  </script>

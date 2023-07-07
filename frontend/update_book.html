@@ -22,7 +22,7 @@
         <h1>Update Book Information</h1>
         <form id="updateForm">
             <label for="id">Book ID:</label>
-            <input type="number" class="form-control" id="id" name="id" required><br>
+            <input type="number" class="form-control" id="id" name="id" required readonly="true"><br>
 
             <label for="title">Title:</label>
             <input type="text" class="form-control" id="title" name="title" required><br>
@@ -45,6 +45,33 @@
         
 
     <script>
+        $(function(){
+        fetch();
+    });
+
+    function fetch() {
+        let params = (new URL(document.location)).searchParams;
+        let id = params.get("id");
+
+        var url = `http://localhost:8080/book/${id}`
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (res, textStatus, xhr) {
+                var book = res
+                document.getElementById("id").value=book.id;
+                document.getElementById("title").value=book.title;
+                document.getElementById("author").value=book.author;
+                document.getElementById("price").value=book.price;
+                document.getElementById("isbn").value=book.isbn;
+                document.getElementById("publicationYear").value=book.publication_year;
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert(xhr.responseJSON.message)
+            }
+            });
+    }
         document.getElementById("updateForm").addEventListener("submit", function(event) {
             event.preventDefault(); // Prevent form submission
 
@@ -76,11 +103,11 @@
             .then(response => response.json())
             .then(data => {
                 alert("Book updated successfully");
-                window.location.href = `http://localhost/A2_Bookstore/frontend/index.html`;
+                window.location.href = `index.html`;
             })
             .catch(error => {
                 alert("Error updating book:", error);
-                window.location.href = `http://localhost/A2_Bookstore/frontend/index.html`;
+                window.location.href = `index.html`;
             });
         });
     </script>
